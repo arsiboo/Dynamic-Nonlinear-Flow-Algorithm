@@ -1,5 +1,5 @@
 # Dynamic Nonlinear Flow Algorithm
-A modified version of flow algorithm for continuous and discrete dynamic nonlimear flows
+A modified version of flow algorithm for dynamic nonlimear flows
 
 * modified dinitz flow algorithm Description:
 * This is a dynamic non-linear flow algorithm based on dinitz flow algorithm.
