@@ -1,10 +1,11 @@
 # modified dinitz flow algorithm Description:
 # This is a dynamic non-linear flow algorithm based on dinitz flow algorithm.
-# The Algorithm has been extended by two feathres: 1) Continous flow, 2) Discrete flow
+# The algorithm has been modified for continous/discrete flow.
 # Furthermore, the algorithm is modified to provide two type of outputs: 1) Residual graph, 2) minmax graph.
-# The residual graph is suitable for continous flow and the minmax graph is suitable for discrete flow, but both can be generated at the same time
-# The residual graph's lowest value indicate the bottleneck is higher, the mixmax graph shows the persistency of the botttlneck.
-# If the variance in minmax graph is small, it means that there was a persistent bottleneck.
+# The residual graph's lowest value indicates a strong bottleneck, the mixmax graph shows the persistency of the botttlneck.
+# If the variance in minmax graph is small, it means that there is a persistent bottleneck toward that ward.
+# The algorithm can be used for problem-solving and optimization of hospitals and it is a much more efficient substitution for simulation.
+# To evaludate the algorithm both outputs are compared to the simulation output.
 
 import networkx as nx
 import pandas as pd
@@ -12,12 +13,12 @@ from inputs_functions import bfs, rate_per_hour, hospital, wards_args, orig_data
 
 
 def dynamic_nonlinear_dinic(graph, source, sink, edge_information=None, node_information=None, flow_rates=None):
-    residual_graph = nx.DiGraph()
+    residual_graph = graph.copy() # for continous flow algorithm
     min_max_graph = graph.copy()  # This is more useful
     # max_flow = 0
     # dynamic capacity:
     for flow_rate in flow_rates:
-        residual_graph = graph.copy()  # enabling provides remaining capaacity for a discrete flow, disabling provides remaining capacity for a continuous flow
+        #residual_graph = graph.copy()  # enabling this will is not be suitable for continous residual graph.
         # max_flow = 0
         for u, v, data in hospital.edges(data=True):
             dist = 0
