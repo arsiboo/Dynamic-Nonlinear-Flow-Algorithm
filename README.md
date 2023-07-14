@@ -1,10 +1,12 @@
 # Continous_and_Discrete_Dynamic_Nonlinear_Flow_Algorithm
 A modified version of flow algorithm for continuous and discrete dynamic nonlimear flows
 
+* modified dinitz flow algorithm Description:
 * This is a dynamic non-linear flow algorithm based on dinitz flow algorithm.
-* The Algorithm has been extended by two feathres: 1) Continous flow, 2) Discrete flow
+* The algorithm has been modified for continous/discrete flow.
 * Furthermore, the algorithm is modified to provide two type of outputs: 1) Residual graph, 2) minmax graph.
-* The residual graph is suitable for continous flow and the minmax graph is suitable for discrete flow, but both can be generated at the same time
-* The residual graph's lowest value indicate the bottleneck is higher, the mixmax graph shows the persistency of the botttlneck.
-* If the variance in minmax graph is small, it means that there was a persistent bottleneck.
+* The residual graph's lowest value indicates a strong bottleneck, the mixmax graph shows the persistency of the botttlneck.
+* If the variance in minmax graph is small, it means that there is a persistent bottleneck toward that ward.
+* The algorithm can be used for problem-solving and optimization of hospitals and it is a much more efficient substitution for simulation.
+* To evaludate the algorithm both outputs are compared to the simulation output.
 
