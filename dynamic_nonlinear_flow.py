@@ -36,9 +36,9 @@ def dynamic_nonlinear_dinic(graph, source, sink, edge_information=None, node_inf
 
             for u, v in zip(path, path[1:]):
                 static_residual_graph[u][v]['capacity'] -= min_capacity  # forward edge
-                # if not residual_graph.has_edge(v, u):
-                #    residual_graph.add_edge(v, u, capacity=0)
-                # residual_graph[v][u]['capacity'] += min_capacity  # backward edge
+                # if not static_residual_graph.has_edge(v, u):
+                #    static_residual_graph.add_edge(v, u, capacity=0)
+                # static_residual_graph[v][u]['capacity'] += min_capacity  # backward edge
 
             # max_flow += min_capacity
 
@@ -46,13 +46,14 @@ def dynamic_nonlinear_dinic(graph, source, sink, edge_information=None, node_inf
             if 'max_capacity' not in attr:
                 attr['max_capacity'] = 0
             if 'min_capacity' not in attr:
-                attr['min_capacity'] = 0
+                attr['min_capacity'] = float('inf')
             res = static_residual_graph[u][v]
             #capacity = res['capacity']
             attr['max_capacity'] = max(attr['max_capacity'], res['capacity'])
-            attr['min_capacity'] = min(attr.get('min_capacity', float('inf')), res['capacity']) if attr.get('min_capacity',
-                                                                                                     float(
-                                                                                                         'inf')) != 0 else res['capacity']
+            attr['min_capacity'] = min(attr['min_capacity'], res['capacity'])
+            #attr['min_capacity'] = min(attr.get('min_capacity', float('inf')), res['capacity']) if attr.get('min_capacity',
+            #                                                                                         float(
+            #                                                                                             'inf')) != 0 else res['capacity']
 
     return static_residual_graph, dynamic_residual_graph  # the lower, the worse, and the closer, the higher the persistency.
 
