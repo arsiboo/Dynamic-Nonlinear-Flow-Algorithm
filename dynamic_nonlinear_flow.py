@@ -7,28 +7,43 @@
 # To evaludate the algorithm both outputs are compared to the simulation output.
 import networkx as nx
 import pandas as pd
-from inputs_functions import bfs, rate_per_hour, hospital, wards_args, orig_dataset
+import numpy as np
+from inputs_functions import bfs, dfs, iddfs, rate_per_hour, hospital, wards_args, orig_dataset
+
+my_ward = "Medicinavdelning 30 E"
 
 
-def dynamic_nonlinear_dinic(graph, source, sink, edge_information=None, node_information=None, arrival_rates=None):
-    static_residual_graph = graph.copy() # Initialized here to make sure they are not reseted by each arrival rate
-    dynamic_residual_graph = graph.copy() # Initialized here to make sure they are not reseted by each arrival rate
+def dynamic_nonlinear_flow(graph, source, sink, edge_information=None, node_information=None, arrival_rates=None):
+    static_residual_graph = graph.copy()  # Initialized here to make sure they are not reseted by each arrival rate
+    dynamic_residual_graph = graph.copy()  # Initialized here to make sure they are not reseted by each arrival rate
     # max_flow = 0
-    # dynamic capacity:
+    mylist = []
+    time = 0
+
     for arrival_rate in arrival_rates:
-        #static_residual_graph = graph.copy()  # enabling this will not be suitable for continous residual graph.
+        # static_residual_graph = graph.copy()  # enabling this will not be suitable for continous residual graph.
         # max_flow = 0
+        incoming_flow = {v: 0 for v in graph.nodes()}
+        outgoing_flow = {v: 0 for v in graph.nodes()}
         for u, v, data in graph.edges(data=True):
-            serving_time = 0
+            flow_uv = arrival_rate * data['distribution_probability']
+            incoming_flow[v] += flow_uv
+            outgoing_flow[u] += flow_uv
+
+        for u, v, data in graph.edges(data=True):
+            service_time = 0
             filtered_df = orig_dataset[orig_dataset.iloc[:, 2] == v]
-            while not (filtered_df["los_ward"].min() <= serving_time <= filtered_df["los_ward"].max()):
-                serving_time = graph.nodes[v]['distribution_function'].rvs(**wards_args[v])
-            usage = arrival_rate / (graph.nodes[v]['num_server'] * serving_time)
-            node_capacity = graph.nodes[v]['beds'] * usage
-            static_residual_graph[u][v]['capacity'] = (data['buffer'] + node_capacity) * data['distribution_probability']
+            while not (filtered_df["los_ward"].min() <= service_time <= filtered_df["los_ward"].max()):
+                service_time = graph.nodes[v]['distribution_function'].rvs(**wards_args[v])
+
+            service_rate= graph.nodes[v]['num_server'] / service_time
+            effective_capacity= graph.nodes[v]['beds'] + service_rate - (incoming_flow[v] - outgoing_flow[v]) + data['buffer']
+
+            static_residual_graph[u][v]['capacity'] = effective_capacity
+
 
         while True:
-            path = bfs(static_residual_graph, source, sink)
+            path = dfs(static_residual_graph, source, sink)
             if path is None:
                 break
 
@@ -36,41 +51,36 @@ def dynamic_nonlinear_dinic(graph, source, sink, edge_information=None, node_inf
 
             for u, v in zip(path, path[1:]):
                 static_residual_graph[u][v]['capacity'] -= min_capacity  # forward edge
-                # if not static_residual_graph.has_edge(v, u):
+                #if not static_residual_graph.has_edge(v, u):
                 #    static_residual_graph.add_edge(v, u, capacity=0)
                 # static_residual_graph[v][u]['capacity'] += min_capacity  # backward edge
 
             # max_flow += min_capacity
-
-        for u, v, attr in dynamic_residual_graph.edges(data=True): # Extended section
+        for u, v, attr in dynamic_residual_graph.edges(data=True):  # Extended section
             if 'max_capacity' not in attr:
                 attr['max_capacity'] = 0
             if 'min_capacity' not in attr:
                 attr['min_capacity'] = float('inf')
             res = static_residual_graph[u][v]
-            #capacity = res['capacity']
             attr['max_capacity'] = max(attr['max_capacity'], res['capacity'])
             attr['min_capacity'] = min(attr['min_capacity'], res['capacity'])
-            #attr['min_capacity'] = min(attr.get('min_capacity', float('inf')), res['capacity']) if attr.get('min_capacity',
-            #                                                                                         float(
-            #                                                                                             'inf')) != 0 else res['capacity']
+            if v == my_ward:
+                mylist.append([time, res['capacity']])
+        time += 1
 
-    return static_residual_graph, dynamic_residual_graph  # the lower, the worse, and the closer, the higher the persistency.
-
-
-
-
-
-
+    return static_residual_graph, dynamic_residual_graph, mylist
 
 
 # running the function
 source = 'Source'
 sink = 'Sink'
 
-res_graph, maxmin_graph = dynamic_nonlinear_dinic(hospital, source, sink, edge_information=hospital.edges,
-                                                  node_information=hospital.nodes,
-                                                  arrival_rates=rate_per_hour)
+rate_per_hour_for_longer = rate_per_hour * 1
+
+res_graph, maxmin_graph, dyn_nonlinear = dynamic_nonlinear_flow(hospital, source, sink,
+                                                                 edge_information=hospital.edges,
+                                                                 node_information=hospital.nodes,
+                                                                 arrival_rates=rate_per_hour_for_longer)
 
 node_labels = sorted(res_graph.nodes())
 
@@ -103,3 +113,9 @@ for node_i in node_labels:
 
 # Write the DataFrame to an Excel file
 df_minmax.to_excel('OUTPUT/minmax_graph.xlsx', index=True)
+
+# Create a DataFrame from the list of lists
+df = pd.DataFrame(dyn_nonlinear, columns=["time", "residual capacity"])
+
+# Export the DataFrame to an Excel file
+df.to_excel("OUTPUT/" + my_ward + ".xlsx", index=False)
