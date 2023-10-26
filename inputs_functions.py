@@ -3,6 +3,37 @@ import networkx as nx
 import os
 import scipy.stats
 from fitter import Fitter
+from collections import deque
+
+
+def iddfs(residual_graph, source, sink):
+    max_depth = 0
+
+    while True:
+        result = dfs_with_depth_limit(residual_graph, source, sink, max_depth)
+        if result is not None:
+            return result
+        max_depth += 1
+
+
+def dfs_with_depth_limit(residual_graph, source, sink, max_depth):
+    visited = set()
+    stack = [(source, [source])]
+
+    while stack:
+        node, path = stack.pop()
+        visited.add(node)
+
+        if len(path) > max_depth:
+            continue
+
+        for neighbor in residual_graph.neighbors(node):
+            if neighbor not in visited and residual_graph[node][neighbor]['capacity'] > 0:
+                if neighbor == sink:
+                    return path + [neighbor]
+                stack.append((neighbor, path + [neighbor]))
+
+    return None
 
 
 
@@ -21,6 +52,24 @@ def bfs(residual_graph, source, sink):
                 queue.append((neighbor, path + [neighbor]))
 
     return None
+
+
+def dfs(residual_graph, source, sink):
+    visited = set()
+    stack = [(source, [source])]
+
+    while stack:
+        node, path = stack.pop()
+        visited.add(node)
+
+        for neighbor in residual_graph.neighbors(node):
+            if neighbor not in visited and residual_graph[node][neighbor]['capacity'] > 0:
+                if neighbor == sink:
+                    return path + [neighbor]
+                stack.append((neighbor, path + [neighbor]))
+
+    return None
+
 
 
 
