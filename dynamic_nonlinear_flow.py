@@ -10,7 +10,7 @@ import pandas as pd
 import numpy as np
 from inputs_functions import bfs, dfs, iddfs, rate_per_hour, hospital, wards_args, orig_dataset
 
-my_ward = "Medicinavdelning 30 E"
+my_ward = "EMERGENCY DEPARTMENT"
 
 
 def dynamic_nonlinear_flow(graph, source, sink, edge_information=None, node_information=None, arrival_rates=None):
@@ -27,20 +27,19 @@ def dynamic_nonlinear_flow(graph, source, sink, edge_information=None, node_info
         for u, v, data in graph.edges(data=True):
             service_time = 0
             filtered_df = orig_dataset[orig_dataset.iloc[:, 2] == v]
-            total_cap = graph.nodes[v]['beds'] + data['buffer']
             while not (filtered_df["los_ward"].min() <= service_time <= filtered_df["los_ward"].max()):
                 service_time = graph.nodes[v]['distribution_function'].rvs(**wards_args[v])
 
             service_rate_node = graph.nodes[v]['num_server'] / service_time
             traffic_intensity_node = arrival_rate / service_rate_node
-            utility_node = traffic_intensity_node / (1-traffic_intensity_node)
-            
+            ratio = traffic_intensity_node / (1 - traffic_intensity_node)
             inflow_edge = arrival_rate * data['distribution_probability']
-            adjusted_cap = inflow_edge + (utility_node * total_cap)
+            edge_cap= data['buffer'] * inflow_edge
+            node_cap=graph.nodes[v]['beds'] * ratio
+            adjusted_cap = edge_cap + node_cap
 
             # Update capacities in the graph
             static_residual_graph[u][v]['capacity'] = adjusted_cap
-
 
         while True:
             path = dfs(static_residual_graph, source, sink)
