@@ -23,23 +23,23 @@ def dynamic_nonlinear_flow(graph, source, sink, edge_information=None, node_info
     for arrival_rate in arrival_rates:
         # static_residual_graph = graph.copy()  # enabling this will not be suitable for continous residual graph.
         # max_flow = 0
-        incoming_flow = {v: 0 for v in graph.nodes()}
-        outgoing_flow = {v: 0 for v in graph.nodes()}
-        for u, v, data in graph.edges(data=True):
-            flow_uv = arrival_rate * data['distribution_probability']
-            incoming_flow[v] += flow_uv
-            outgoing_flow[u] += flow_uv
 
         for u, v, data in graph.edges(data=True):
             service_time = 0
             filtered_df = orig_dataset[orig_dataset.iloc[:, 2] == v]
+            total_cap = graph.nodes[v]['beds'] + data['buffer']
             while not (filtered_df["los_ward"].min() <= service_time <= filtered_df["los_ward"].max()):
                 service_time = graph.nodes[v]['distribution_function'].rvs(**wards_args[v])
 
-            service_rate= graph.nodes[v]['num_server'] / service_time
-            effective_capacity= graph.nodes[v]['beds'] + service_rate - (incoming_flow[v] - outgoing_flow[v]) + data['buffer']
+            service_rate_node = graph.nodes[v]['num_server'] / service_time
+            traffic_intensity_node = arrival_rate / service_rate_node
+            utility_node = traffic_intensity_node / (1-traffic_intensity_node)
+            
+            inflow_edge = arrival_rate * data['distribution_probability']
+            adjusted_cap = inflow_edge + (utility_node * total_cap)
 
-            static_residual_graph[u][v]['capacity'] = effective_capacity
+            # Update capacities in the graph
+            static_residual_graph[u][v]['capacity'] = adjusted_cap
 
 
         while True:
@@ -51,7 +51,7 @@ def dynamic_nonlinear_flow(graph, source, sink, edge_information=None, node_info
 
             for u, v in zip(path, path[1:]):
                 static_residual_graph[u][v]['capacity'] -= min_capacity  # forward edge
-                #if not static_residual_graph.has_edge(v, u):
+                # if not static_residual_graph.has_edge(v, u):
                 #    static_residual_graph.add_edge(v, u, capacity=0)
                 # static_residual_graph[v][u]['capacity'] += min_capacity  # backward edge
 
@@ -78,9 +78,9 @@ sink = 'Sink'
 rate_per_hour_for_longer = rate_per_hour * 1
 
 res_graph, maxmin_graph, dyn_nonlinear = dynamic_nonlinear_flow(hospital, source, sink,
-                                                                 edge_information=hospital.edges,
-                                                                 node_information=hospital.nodes,
-                                                                 arrival_rates=rate_per_hour_for_longer)
+                                                                edge_information=hospital.edges,
+                                                                node_information=hospital.nodes,
+                                                                arrival_rates=rate_per_hour_for_longer)
 
 node_labels = sorted(res_graph.nodes())
 
@@ -107,7 +107,7 @@ for node_i in node_labels:
             edge_data = maxmin_graph.get_edge_data(node_i, node_j)
             min_capacity = edge_data.get('min_capacity', 'N')
             max_capacity = edge_data.get('max_capacity', 'N')
-            df_minmax.loc[node_i, node_j] = f"{min_capacity:.2f}-{max_capacity:.2f}"
+            df_minmax.loc[node_i, node_j] = f"{min_capacity:.2f}:{max_capacity:.2f}"
         else:
             df_minmax.loc[node_i, node_j] = "N"
 
