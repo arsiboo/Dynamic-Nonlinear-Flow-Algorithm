@@ -1,23 +1,20 @@
-# modified dinitz flow algorithm Description:
-# This is a dynamic non-linear flow algorithm based on dinitz flow algorithm.
-# Furthermore, the algorithm is modified to provide two type of outputs: 1) Residual graph, 2) minmax graph.
-# The residual graph's lowest value indicates a strong bottleneck, the minmax graph shows the persistency of the botttlneck.
-# If the variance in minmax graph is small, it means that there is a persistent bottleneck toward that ward.
-# The algorithm can be used for problem-solving and optimization of hospitals and it is a much more efficient substitution for simulation.
-# To evaludate the algorithm both outputs are compared to the simulation output.
 import networkx as nx
 import pandas as pd
 import numpy as np
 from inputs_functions import bfs, dfs, iddfs, rate_per_hour, hospital, wards_args, orig_dataset
 
-my_ward = "EMERGENCY DEPARTMENT"
+my_ward1 = "Medicinavdelning 30 E"
+my_ward2 = "Infektionsavdelning 30 F"
+my_ward3 = "EMERGENCY DEPARTMENT"
 
 
 def dynamic_nonlinear_flow(graph, source, sink, edge_information=None, node_information=None, arrival_rates=None):
     static_residual_graph = graph.copy()  # Initialized here to make sure they are not reseted by each arrival rate
     dynamic_residual_graph = graph.copy()  # Initialized here to make sure they are not reseted by each arrival rate
     # max_flow = 0
-    mylist = []
+    mylist1 = []
+    mylist2 = []
+    mylist3 = []
     time = 0
 
     for arrival_rate in arrival_rates:
@@ -63,11 +60,15 @@ def dynamic_nonlinear_flow(graph, source, sink, edge_information=None, node_info
             res = static_residual_graph[u][v]
             attr['max_capacity'] = max(attr['max_capacity'], res['capacity'])
             attr['min_capacity'] = min(attr['min_capacity'], res['capacity'])
-            if v == my_ward:
-                mylist.append([time, res['capacity']])
+            if v == my_ward1:
+                mylist1.append([time, res['capacity']])
+            if v == my_ward2:
+                mylist2.append([time, res['capacity']])
+            if v == my_ward3:
+                mylist3.append([time, res['capacity']])
         time += 1
 
-    return static_residual_graph, dynamic_residual_graph, mylist
+    return static_residual_graph, dynamic_residual_graph, mylist1, mylist2, mylist3
 
 
 # running the function
@@ -76,7 +77,7 @@ sink = 'Sink'
 
 rate_per_hour_for_longer = rate_per_hour * 1
 
-res_graph, maxmin_graph, dyn_nonlinear = dynamic_nonlinear_flow(hospital, source, sink,
+res_graph, maxmin_graph, dyn_nonlinear1, dyn_nonlinear2, dyn_nonlinear3 = dynamic_nonlinear_flow(hospital, source, sink,
                                                                 edge_information=hospital.edges,
                                                                 node_information=hospital.nodes,
                                                                 arrival_rates=rate_per_hour_for_longer)
@@ -114,7 +115,11 @@ for node_i in node_labels:
 df_minmax.to_excel('OUTPUT/minmax_graph.xlsx', index=True)
 
 # Create a DataFrame from the list of lists
-df = pd.DataFrame(dyn_nonlinear, columns=["time", "residual capacity"])
+df1 = pd.DataFrame(dyn_nonlinear1, columns=["time", "residual capacity"])
+df2 = pd.DataFrame(dyn_nonlinear2, columns=["time", "residual capacity"])
+df3 = pd.DataFrame(dyn_nonlinear3, columns=["time", "residual capacity"])
 
 # Export the DataFrame to an Excel file
-df.to_excel("OUTPUT/" + my_ward + ".xlsx", index=False)
+df1.to_excel("OUTPUT/" + my_ward1 + ".xlsx", index=False)
+df2.to_excel("OUTPUT/" + my_ward2 + ".xlsx", index=False)
+df3.to_excel("OUTPUT/" + my_ward3 + ".xlsx", index=False)
