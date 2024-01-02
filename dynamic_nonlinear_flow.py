@@ -1,24 +1,27 @@
+import math
 import networkx as nx
 import pandas as pd
 import numpy as np
-from inputs_functions import bfs, dfs, iddfs, rate_per_hour, hospital, wards_args, orig_dataset
+from inputs_functions import dfs, rate_per_hour, hospital, wards_args, orig_dataset
 
 my_ward1 = "Medicinavdelning 30 E"
 my_ward2 = "Infektionsavdelning 30 F"
 my_ward3 = "EMERGENCY DEPARTMENT"
 
 
-def dynamic_nonlinear_flow(graph, source, sink, edge_information=None, node_information=None, arrival_rates=None):
+def dynamic_nonlinear_flow(graph, source, sink, arrival_rates=None):
     static_residual_graph = graph.copy()  # Initialized here to make sure they are not reseted by each arrival rate
     dynamic_residual_graph = graph.copy()  # Initialized here to make sure they are not reseted by each arrival rate
     # max_flow = 0
     mylist1 = []
     mylist2 = []
     mylist3 = []
+    debugging = []
+    paths = []
     time = 0
 
+
     for arrival_rate in arrival_rates:
-        # static_residual_graph = graph.copy()  # enabling this will not be suitable for continous residual graph.
         # max_flow = 0
 
         for u, v, data in graph.edges(data=True):
@@ -26,22 +29,26 @@ def dynamic_nonlinear_flow(graph, source, sink, edge_information=None, node_info
             filtered_df = orig_dataset[orig_dataset.iloc[:, 2] == v]
             while not (filtered_df["los_ward"].min() <= service_time <= filtered_df["los_ward"].max()):
                 service_time = graph.nodes[v]['distribution_function'].rvs(**wards_args[v])
-
+            #outdeg=graph.out_degree(u)
+            #data['distribution_probability'] = 1/outdeg
             service_rate_node = graph.nodes[v]['num_server'] / service_time
             traffic_intensity_node = arrival_rate / service_rate_node
             ratio = traffic_intensity_node / (1 - traffic_intensity_node)
-            inflow_edge = arrival_rate * data['distribution_probability']
-            edge_cap= data['buffer'] * inflow_edge
-            node_cap=graph.nodes[v]['beds'] * ratio
+            inflow_edge = data['distribution_probability'] * arrival_rate
+            edge_cap = data['buffer'] * inflow_edge
+            node_cap = graph.nodes[v]['beds'] * ratio
             adjusted_cap = edge_cap + node_cap
-
-            # Update capacities in the graph
             static_residual_graph[u][v]['capacity'] = adjusted_cap
+
+
 
         while True:
             path = dfs(static_residual_graph, source, sink)
+
             if path is None:
                 break
+            else:
+                paths.append(path)
 
             min_capacity = min(static_residual_graph[u][v]['capacity'] for u, v in zip(path, path[1:]))
 
@@ -68,19 +75,23 @@ def dynamic_nonlinear_flow(graph, source, sink, edge_information=None, node_info
                 mylist3.append([time, res['capacity']])
         time += 1
 
-    return static_residual_graph, dynamic_residual_graph, mylist1, mylist2, mylist3
+    return static_residual_graph, dynamic_residual_graph, mylist1, mylist2, mylist3,debugging, paths
 
 
-# running the function
+
+
+
+
+
+
+
 source = 'Source'
 sink = 'Sink'
 
 rate_per_hour_for_longer = rate_per_hour * 1
 
-res_graph, maxmin_graph, dyn_nonlinear1, dyn_nonlinear2, dyn_nonlinear3 = dynamic_nonlinear_flow(hospital, source, sink,
-                                                                edge_information=hospital.edges,
-                                                                node_information=hospital.nodes,
-                                                                arrival_rates=rate_per_hour_for_longer)
+res_graph, maxmin_graph, dyn_nonlinear1, dyn_nonlinear2, dyn_nonlinear3,debug,coll_path = dynamic_nonlinear_flow(hospital, source, sink,
+                                                                                                 arrival_rates=rate_per_hour_for_longer)
 
 node_labels = sorted(res_graph.nodes())
 
@@ -111,15 +122,21 @@ for node_i in node_labels:
         else:
             df_minmax.loc[node_i, node_j] = "N"
 
-# Write the DataFrame to an Excel file
 df_minmax.to_excel('OUTPUT/minmax_graph.xlsx', index=True)
 
-# Create a DataFrame from the list of lists
 df1 = pd.DataFrame(dyn_nonlinear1, columns=["time", "residual capacity"])
 df2 = pd.DataFrame(dyn_nonlinear2, columns=["time", "residual capacity"])
 df3 = pd.DataFrame(dyn_nonlinear3, columns=["time", "residual capacity"])
 
-# Export the DataFrame to an Excel file
+
 df1.to_excel("OUTPUT/" + my_ward1 + ".xlsx", index=False)
 df2.to_excel("OUTPUT/" + my_ward2 + ".xlsx", index=False)
 df3.to_excel("OUTPUT/" + my_ward3 + ".xlsx", index=False)
+
+deb = pd.DataFrame(debug, columns=["Name", "Value"])
+deb.to_excel("OUTPUT/debugging/debug.xlsx", index=False)
+
+deb = pd.DataFrame(coll_path)
+
+deb.to_excel("OUTPUT/allpath/paths.xlsx", index=False)
+
