@@ -120,7 +120,7 @@ for node_i in node_labels:
             max_capacity = edge_data.get('max_capacity', 'N')
             df_minmax.loc[node_i, node_j] = f"{min_capacity:.2f}:{max_capacity:.2f}"
         else:
-            df_minmax.loc[node_i, node_j] = "N"
+            df_minmax.loc[node_i, node_j] = "N" 
 
 df_minmax.to_excel('OUTPUT/minmax_graph.xlsx', index=True)
 
