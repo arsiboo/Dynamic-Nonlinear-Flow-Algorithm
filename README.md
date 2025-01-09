@@ -4,14 +4,6 @@
 
 This repository contains the code for the **dynamic nonlinear flow algorithm** described in our research work. The algorithm simulates hospital patient flows to identify bottlenecks, visualize ward behaviors, and analyze system performance.
 
-## Table of Contents
-
-- [Usage](#usage)
-- [Input File](#input-file)
-- [Output Files](#outputs-and-visualization)
-- [Cite This Work](#DOI)
-- [License](#license)
-
 
 ## Usage
 1. **Running the Algorithm**:
