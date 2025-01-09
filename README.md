@@ -4,6 +4,9 @@
 
 This repository contains the code for the **dynamic nonlinear flow algorithm** described in our research work. The algorithm simulates hospital patient flows to identify bottlenecks, visualize ward behaviors, and analyze system performance.
 
+## DOI
+
+## license
 
 ## Usage
 1. **Running the Algorithm**:
@@ -30,7 +33,4 @@ mini-hospital.xlsx sheets:
 - **paths.xlsx** output file contains the data to visualize the patient flow network using **network_visualization.py**.
 - **wards_behaviour.csv** output file contains the data to visualize the wards behaviour over time using **line_chart.py**
 
-## DOI
-
-## license
 
