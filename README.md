@@ -10,9 +10,9 @@ This repository contains the code for the **dynamic nonlinear flow algorithm** d
 
 ## Usage
 1. **Running the Algorithm**:
-   - Use the `main.py` file to run the algorithm.
+   - Use the `main.py` file to run the algorithm. The file has step by step comments.
    - Modify the following lines in `main.py`:
-     - Line 9: Specify the dataset file name (input file).
+     - Line 9: Specify the dataset file name for the dataset.
      - Line 61: Indicate the simulation duration in days.
 
 2. **Other Files**:
@@ -20,7 +20,7 @@ This repository contains the code for the **dynamic nonlinear flow algorithm** d
    - `dependencies.py`: Provides functions such as the depth-first-search (DFS) algorithm.
 
 ## Input File
-mini-hospital.xlsx sheets:
+mini-hospital.xlsx sheets and folder:
 
 - **vertices**: List of hospital wards with corresponding number of beds and staff.
 - **edges**: List of care pathways connecting the wards with corresponding edge capacity and distribution probability.
@@ -29,8 +29,8 @@ mini-hospital.xlsx sheets:
 - **mini-hospital-fitter (Folder)**: Contains distribution functions per ward.
 
 ## Outputs and Visualization
-- **minmax_graph.xlsx** output file contains the data to visualize the persistency using **persistency.py**, visualize the severity using **severity.py**, and visualize the overflow using **overflow.py**.
-- **paths.xlsx** output file contains the data to visualize the patient flow network using **network_visualization.py**.
+- **minmax_graph.xlsx** contains the data to visualize the persistency using **persistency.py**, visualize the severity using **severity.py**, and visualize the overflow using **overflow.py**.
+- **paths.xlsx** contains the data to visualize the patient flow network using **network_visualization.py**.
 - **wards_behaviour.csv** output file contains the data to visualize the wards behaviour over time using **line_chart.py**
 
 
