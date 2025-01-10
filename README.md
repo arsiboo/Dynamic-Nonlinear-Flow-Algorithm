@@ -6,7 +6,7 @@ This repository contains the code for the **dynamic nonlinear flow algorithm** d
 
 ## DOI
 
-## license
+## License
 
 ## Usage
 1. **Running the Algorithm**:
