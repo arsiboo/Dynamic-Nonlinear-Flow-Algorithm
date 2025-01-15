@@ -25,7 +25,7 @@ mini-hospital.xlsx sheets and folder:
 - **vertices**: List of hospital wards with corresponding number of beds and staff.
 - **edges**: List of care pathways connecting the wards with corresponding edge capacity and distribution probability.
 - **arrival_rate**: List of arrival rates per unit time.
-- **service_time**: List of different service times per ward.
+- **service_time**: List of different service times per ward, derived from distribution functions.
 - **mini-hospital-fitter (Folder)**: Contains distribution functions per ward.
 
 ## Outputs and Visualization
