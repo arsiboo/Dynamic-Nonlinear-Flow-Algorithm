@@ -12,7 +12,7 @@ This repository contains the code for the **dynamic nonlinear flow algorithm** d
 1. **Running the Algorithm**:
    - Use the `main.py` file to run the algorithm. The file has step by step comments.
    - Modify the following lines in `main.py`:
-     - Line 9: Specify the dataset file name for the dataset.
+     - Line 9: Specify the file name for the dataset.
      - Line 61: Indicate the simulation duration in days.
 
 2. **Other Files**:
