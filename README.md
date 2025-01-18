@@ -11,7 +11,7 @@ If you use this algorithm in your research or publications, you are **required t
 ---
 
 ## DOI
-(To be added shortly.)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14681746.svg)](https://doi.org/10.5281/zenodo.14681746)
 
 ---
 
