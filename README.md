@@ -2,15 +2,23 @@
 
 **Authors**: Arsineh Boodaghian Asl, Jayanth Raghothama, Adam Darwich, Sebastiaan Meijer  
 
-This repository contains the code for the **dynamic nonlinear flow algorithm** described in our research work. The algorithm simulates hospital patient flows to identify the bottlenecks and overflow, ward behaviors, and analyze system performance.
-If you use this algorithm in your research or publications, you are required to cite this work as follows:
+This repository contains the code for the **dynamic nonlinear flow algorithm** described in our research. The algorithm simulates hospital patient flows to identify bottlenecks, analyze ward behaviors, and evaluate system performance.
 
-If you use this algorithm, you are required to cite this work as follows:
-Boodaghian Asl, A., Raghothama, J., Darwich, A., & Meijer, S. (2025). A dynamic nonlinear flow algorithm to model patient flow. *Scientific Reports*. Under Review.
+If you use this algorithm in your research or publications, you are **required to cite** this work as follows:
+
+> **Boodaghian Asl, A., Raghothama, J., Darwich, A., & Meijer, S. (2025). A dynamic nonlinear flow algorithm to model patient flow. _Scientific Reports_. Under Review.**
+
+---
 
 ## DOI
+(To be added shortly.)
+
+---
 
 ## License
+This project is licensed under the [MIT License](LICENSE).
+
+---
 
 ## Usage
 1. **Running the Algorithm**:
@@ -19,10 +27,14 @@ Boodaghian Asl, A., Raghothama, J., Darwich, A., & Meijer, S. (2025). A dynamic 
      - Line 9: Specify the file name for the dataset.
      - Line 61: Indicate the simulation duration in days.
 
+---
+
 2. **Other Files**:
    - `dynamic_nonlinear_flow_algorithm.py`: Contains the flow algorithm implementation.
    - `dependencies.py`: Provides functions such as the depth-first-search (DFS) algorithm.
 
+---
+  
 ## Input File
 mini-hospital.xlsx sheets and folder:
 
@@ -31,6 +43,8 @@ mini-hospital.xlsx sheets and folder:
 - **arrival_rate**: List of arrival rates per unit time.
 - **service_time**: List of different service times per ward, derived from distribution functions.
 - **mini-hospital-fitter (Folder)**: Contains distribution functions per ward.
+
+---
 
 ## Outputs and Visualization
 - **minmax_graph.xlsx** contains the data to visualize the persistency using **persistency.py**, visualize the severity using **severity.py**, and visualize the overflow using **overflow.py**.
