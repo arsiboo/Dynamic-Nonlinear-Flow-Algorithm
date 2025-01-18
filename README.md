@@ -5,9 +5,7 @@
 This repository contains the code for the **dynamic nonlinear flow algorithm** described in our research work. The algorithm simulates hospital patient flows to identify the bottlenecks and overflow, ward behaviors, and analyze system performance.
 If you use this algorithm in your research or publications, you are required to cite this work as follows:
 
-Boodaghian Asl, A., Raghothama, J., Darwich, A., & Meijer, S. (Year). A dynamic nonlinear flow algorithm to model patient flow. Manuscript under review in *Scientific Reports*. Temporary DOI: [placeholder DOI or link to this repository].
-
-
+Boodaghian Asl, A., Raghothama, J., Darwich, A., & Meijer, S. (2025). A dynamic nonlinear flow algorithm to model patient flow. Manuscript under review in *Scientific Reports*.
 
 ## DOI
 
