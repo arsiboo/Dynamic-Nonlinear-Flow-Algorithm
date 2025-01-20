@@ -10,9 +10,7 @@ If you use this algorithm in your research or publications, you are **required t
 
 ---
 
-## DOI
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14681745)](10.5281/zenodo.14681745)
-
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14681745.svg)](https://doi.org/10.5281/zenodo.14681745)
 
 
 ---
