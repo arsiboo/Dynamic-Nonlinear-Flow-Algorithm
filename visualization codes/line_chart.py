@@ -10,7 +10,7 @@ wards = ["Emergency Department", "Medical Ward", "Infectious Diseases Unit"]
 
 colors = ['darkviolet', 'limegreen', 'dodgerblue']
 plt.figure(figsize=(12, 6))
-window_size = 20
+window_size = 1
 
 for idx, ward in enumerate(wards):
     df = df_all[df_all['ward'] == ward]
