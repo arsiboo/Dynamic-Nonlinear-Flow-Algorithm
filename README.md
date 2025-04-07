@@ -6,12 +6,9 @@ This repository contains the code for the **dynamic nonlinear flow algorithm** d
 
 If you use this algorithm in your research or publications, you are **required to cite** this work as follows:
 
-> **Boodaghian Asl, A., Raghothama, J., Darwich, A., & Meijer, S. (2025). A dynamic nonlinear flow algorithm to model patient flow. _Scientific Reports_. Accepted.**
+**Citation**
 
----
-
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14681745.svg)](https://doi.org/10.5281/zenodo.14681745)
-
+Boodaghian Asl, A., Raghothama, J., Darwich, A. S., & Meijer, S. (2025). *A dynamic nonlinear flow algorithm to model patient flow*. *Scientific Reports*. https://doi.org/10.1038/s41598-025-96536-z
 
 ---
 
