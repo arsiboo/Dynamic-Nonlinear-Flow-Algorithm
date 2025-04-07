@@ -1,6 +1,6 @@
 # A Dynamic Nonlinear Flow Algorithm to Model Patient Flow
 
-**Authors**: Arsineh Boodaghian Asl, Jayanth Raghothama, Adam Darwich, Sebastiaan Meijer  
+**Authors**: Arsineh Boodaghian Asl, Jayanth Raghothama, Adam S. Darwich, Sebastiaan Meijer  
 
 This repository contains the code for the **dynamic nonlinear flow algorithm** described in our research. The algorithm simulates hospital patient flows to identify bottlenecks, analyze ward behaviors, and evaluate system performance.
 
