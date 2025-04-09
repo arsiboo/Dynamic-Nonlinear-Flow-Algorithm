@@ -9,6 +9,7 @@ If you use this algorithm in your research or publications, you are **required t
 Paper link: https://www.nature.com/articles/s41598-025-96536-z
 
 **Citation**
+
 Boodaghian Asl, A., Raghothama, J., Darwich, A. S., & Meijer, S. (2025). *A dynamic nonlinear flow algorithm to model patient flow*. *Scientific Reports*. https://doi.org/10.1038/s41598-025-96536-z
 
 ---
