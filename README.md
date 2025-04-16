@@ -2,7 +2,7 @@
 
 **Authors**: Arsineh Boodaghian Asl, Jayanth Raghothama, Adam S. Darwich, Sebastiaan Meijer  
 
-This repository contains the code for the **dynamic nonlinear flow algorithm** described in our research. The algorithm simulates hospital patient flows to identify bottlenecks, analyze ward behaviors, and evaluate system performance.
+This repository contains the code for the **dynamic nonlinear flow algorithm** described in our research. The algorithm simulates hospital patient flows to identify bottlenecks, analyse wards behaviours, and evaluate system performance.
 
 If you use this algorithm in your research or publications, you are **required to cite** this work as follows:
 
