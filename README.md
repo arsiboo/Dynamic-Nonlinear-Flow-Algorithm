@@ -51,4 +51,7 @@ mini-hospital.xlsx sheets and folder:
 - **paths.xlsx** contains the data to visualize the patient flow network using **network_visualization.py**.
 - **wards_behaviour.csv** output file contains the data to visualize the wards behaviour over time using **line_chart.py**
 
+---
+## Related Work
 
+- [A Hybrid Approach to Model Hospitals and Evaluate Wards' Performances](https://github.com/arsiboo/Agent-Based-Network-Simulation-Combined-Network-Algorithm)
