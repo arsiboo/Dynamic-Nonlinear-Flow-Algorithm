@@ -10,9 +10,9 @@ This repository contains the code for the **dynamic nonlinear flow algorithm** d
 
 If you use this algorithm in your research or publications, please cite the following work:
 
-**Boodaghian Asl, A., Raghothama, J., Darwich, A. S., & Meijer, S. (2025).**  
+Boodaghian Asl, A., Raghothama, J., Darwich, A. S., & Meijer, S. (2025).
 *A dynamic nonlinear flow algorithm to model patient flow.*  
-**Scientific Reports, 15(1), 12052**  
+Scientific Reports, 15(1), 12052
 [Read the Paper](https://www.nature.com/articles/s41598-025-96536-z)
 
 ---
