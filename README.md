@@ -63,4 +63,5 @@ This project is licensed under the [MIT License](LICENSE).
 ## Related Work
 
 - [A Hybrid Approach to Model Hospitals and Evaluate Wards' Performances](https://github.com/arsiboo/Agent-Based-Network-Simulation-Combined-Network-Algorithm)
+- - [Studying the Effect of Online Medical Applications on Patients Healing Time and Doctors Utilization Using Discrete Event Simulation](https://github.com/arsiboo/Discrete-Event-Simulation-EHealth)
 
