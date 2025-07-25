@@ -10,9 +10,7 @@ This repository contains the code for the **dynamic nonlinear flow algorithm** d
 
 If you use this algorithm in your research or publications, please cite the following work:
 
-Boodaghian Asl, A., Raghothama, J., Darwich, A. S., & Meijer, S. (2025).
-*A dynamic nonlinear flow algorithm to model patient flow.*  
-Scientific Reports, 15(1), 12052
+Boodaghian Asl, A., Raghothama, J., Darwich, A. S., & Meijer, S. (2025). *A dynamic nonlinear flow algorithm to model patient flow.* Scientific Reports, 15(1), 12052
 [Read the Paper](https://www.nature.com/articles/s41598-025-96536-z)
 
 ---
@@ -39,7 +37,7 @@ The model requires an Excel file and a folder structured as follows:
 - **`edges` sheet** — Care pathways between wards with edge capacities and probabilities.
 - **`arrival_rate` sheet** — Patient arrival rates over time.
 - **`service_time` sheet** — Service time distributions for each ward.
-- **`mini-hospital-fitter/` folder** — Pre-fitted distribution functions for service times.
+- **`mini-hospital-fitter/` folder** — Distribution functions for service times.
 
 ---
 
