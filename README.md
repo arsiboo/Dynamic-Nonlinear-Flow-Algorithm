@@ -1,57 +1,68 @@
 # A Dynamic Nonlinear Flow Algorithm to Model Patient Flow
 
-**Authors**: Arsineh Boodaghian Asl, Jayanth Raghothama, Adam S. Darwich, Sebastiaan Meijer  
+This repository contains the code for the **dynamic nonlinear flow algorithm** described in the following research paper. The algorithm simulates hospital patient flows to identify bottlenecks, analyze ward behavior, and evaluate system performance.
 
-This repository contains the code for the **dynamic nonlinear flow algorithm** described in our research. The algorithm simulates hospital patient flows to identify bottlenecks, analyse wards behaviours, and evaluate system performance.
-
-If you use this algorithm in your research or publications, you are **required to cite** this work as follows:
-
-
-**Citation**
-Boodaghian Asl, A., Raghothama, J., Darwich, A. S., & Meijer, S. (2025). A dynamic nonlinear flow algorithm to model patient flow. Scientific Reports, 15(1), 12052.
-
-**Paper Link**
-https://www.nature.com/articles/s41598-025-96536-z
+> **Note:** This research was conducted as part of my PhD studies at KTH Royal Institute of Technology.
 
 ---
 
-## License
-This project is licensed under the [MIT License](LICENSE).
+## Citation
+
+If you use this algorithm in your research or publications, please cite the following work:
+
+**Boodaghian Asl, A., Raghothama, J., Darwich, A. S., & Meijer, S. (2025).**  
+*A dynamic nonlinear flow algorithm to model patient flow.*  
+**Scientific Reports, 15(1), 12052**  
+[Read the Paper](https://www.nature.com/articles/s41598-025-96536-z)
 
 ---
 
 ## Usage
-1. **Running the Algorithm**:
-   - Use the `main.py` file to run the algorithm. The file has step by step comments.
-   - Modify the following lines in `main.py`:
-     - Line 9: Specify the file name for the dataset.
-     - Line 61: Indicate the simulation duration in days.
+
+### 1. Running the Algorithm
+- Run the simulation via `main.py`. The script includes step-by-step comments.
+- Modify the following lines:
+  - **Line 9**: Specify the dataset file name (Excel format).
+  - **Line 61**: Set the simulation duration (in days).
+
+### 2. Code Structure
+- **`dynamic_nonlinear_flow_algorithm.py`** — Implements the core algorithm.
+- **`dependencies.py`** — Contains utility functions such as depth-first search (DFS).
 
 ---
 
-2. **Other Files**:
-   - `dynamic_nonlinear_flow_algorithm.py`: Contains the flow algorithm implementation.
-   - `dependencies.py`: Provides functions such as the depth-first-search (DFS) algorithm.
+## Input Files
 
----
-  
-## Input File
-mini-hospital.xlsx sheets and folder:
+The model requires an Excel file and a folder structured as follows:
 
-- **vertices**: List of hospital wards with corresponding number of beds and staff.
-- **edges**: List of care pathways connecting the wards with corresponding edge capacity and distribution probability.
-- **arrival_rate**: List of arrival rates per unit time.
-- **service_time**: List of different service times per ward, derived from distribution functions.
-- **mini-hospital-fitter (Folder)**: Contains distribution functions per ward.
+- **`vertices` sheet** — List of hospital wards with number of beds and staff.
+- **`edges` sheet** — Care pathways between wards with edge capacities and probabilities.
+- **`arrival_rate` sheet** — Patient arrival rates over time.
+- **`service_time` sheet** — Service time distributions for each ward.
+- **`mini-hospital-fitter/` folder** — Pre-fitted distribution functions for service times.
 
 ---
 
 ## Outputs and Visualization
-- **minmax_graph.xlsx** contains the data to visualize the persistency using **persistency.py**, visualize the severity using **severity.py**, and visualize the overflow using **overflow.py**.
-- **paths.xlsx** contains the data to visualize the patient flow network using **network_visualization.py**.
-- **wards_behaviour.csv** output file contains the data to visualize the wards behaviour over time using **line_chart.py**
+
+- **`minmax_graph.xlsx`** — Used to visualize:
+  - *Persistency* with `persistency.py`
+  - *Severity* with `severity.py`
+  - *Overflow* with `overflow.py`
+
+- **`paths.xlsx`** — Patient flow network data, visualized using `network_visualization.py`.
+
+- **`wards_behaviour.csv`** — Ward activity over time, visualized using `line_chart.py`.
 
 ---
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
 ## Related Work
 
 - [A Hybrid Approach to Model Hospitals and Evaluate Wards' Performances](https://github.com/arsiboo/Agent-Based-Network-Simulation-Combined-Network-Algorithm)
+
